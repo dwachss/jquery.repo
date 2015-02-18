@@ -7,15 +7,19 @@ http://rawgit.com gets around that by pulling the raw file and re-serving it wit
 
 The answer is to use a specific tag or commit in the script tag: `<script src="http://cdn.rawgit.com/user/repo/abc1234/file.js">` and change that when the underlying repo is updated. But that is terribly inconvenient.
 
-`$.repo` uses the github API to get the SHA for the latest commit to the master, and returns the appropriate URL:
+For stable libraries, that's not a problem, since they should be tagged with version numbers: `http://cdn.rawgit.com/user/repo/v1.0/file.js` and that's probably what you want. However, if you always want the latest version, that won't work.
+
+`$.repo` uses the github API to get the SHA for the latest commit to the master, and returns a $.Deferred that resolved to the appropriate URL (with no trailing slash):
 ````javascript
-var repo = $.repo('user/repo');
-$.getScript(repo+'/file.js');
+$.repo('user/repo').then(function (repo){
+	$.getScript(repo+'/file.js');
+});
 ````
 
 The github api is also rate-limited (to 60 requests an hour from a given IP address), so the repo address is cached for fixed period of time (default 1 hour), with the value saved in localStorage.
 
 ````javascript
-var repo = $.repo('user/repo', time); // if the cached value is more than time msec old, get a new one
-repo = $.repo('user/repo', 0); // force a refresh from github's server
+$.repo('user/repo', time); // if the cached value is more than time msec old, get a new one
+$.repo('user/repo', 0); // force a refresh from github's server
+````
 
