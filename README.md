@@ -23,3 +23,28 @@ $.repo('user/repo', time); // if the cached value is more than time msec old, ge
 $.repo('user/repo', 0); // force a refresh from github's server
 ````
 
+##`$.getScripts`
+`$.getScript` is useful, but it is asynchronous, which means that you can't load scripts that depend on one another with:
+````javascript
+$.getScript('first.js');
+$.getScript('second.js');
+$.getScript('third.js');
+````
+You have to do:
+````javascript
+$.getScript('first.js').then(function(){
+	return $.getScript('second.js');
+}).then(function(){
+	return $.getScript('third.js');
+}).then(function(){
+	// use the scripts
+});
+````
+
+`$.getScripts(Array)` abstracts this out, so you can do:
+````javascript
+$.getScripts(['first.js', 'second.js', 'third.js']).then(function(){
+	// use the scripts
+});
+````
+It's basically a very simple script loader.
