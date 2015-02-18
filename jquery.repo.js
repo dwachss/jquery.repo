@@ -30,7 +30,7 @@ $.fn.repo = function (user, time){
 		sha = localStorage[localName];
 	if (arguments.length == 1) time = 1000*60*60; // one hour
 
-	if (sha && +localStorage[localName'.time'] + time > +new Date){
+	if (sha && +localStorage[localName+'.time'] + time > +new Date){
 		deferred.resolve(repo+sha);
 	}else{
 		$.get('https://api.github.com/repos/'+user+'/git/refs/heads/master').then(function(data){
