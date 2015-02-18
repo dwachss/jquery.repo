@@ -34,7 +34,7 @@ $.repo = function (user, time){
 		deferred.resolve(repo+sha);
 	}else{
 		$.get('https://api.github.com/repos/'+user+'/git/refs/heads/master').then(function(data){
-			localStorage[localName] = repo+data.object.sha;
+			localStorage[localName] = data.object.sha;
 			localStorage[localName+'.time'] = +new Date;
 			deferred.resolve(repo+data.object.sha);
 		});
