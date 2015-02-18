@@ -23,7 +23,7 @@
 
 (function($){
 
-$.fn.repo = function (user, time){
+$.repo = function (user, time){
 	var repo = 'https://cdn.rawgit.com/'+user+'/',
 		deferred = $.Deferred(),
 		localName = '$.repo.'+user,
