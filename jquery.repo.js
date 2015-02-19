@@ -45,6 +45,7 @@ $.repo = function (user, time){
 $.getScripts = function(scripts){
 	// note: this changes the scripts array!
 	if (scripts.length > 0) return $.getScript(scripts.shift()).then( function() { return $.getScripts(scripts) });
+	return $.Deferred().resolve();
 };
 
 })(jQuery);
